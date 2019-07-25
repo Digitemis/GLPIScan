@@ -1,8 +1,9 @@
 #!/usr/bin/python
 
-import Config, Exploits
+import Config, Exploits, AjaxTelemetry
 
 from urlparse import urlparse
+from packaging.version import Version
 import requests, json, chalk
 
 class UrlCheck:
@@ -21,25 +22,59 @@ class UrlCheck:
 			Config.ROOT_DOC = root_doc
 		print(chalk.white('[+] root_doc : ', bold=True) + chalk.yellow(Config.ROOT_DOC, bold=True))
 
-	def getVersion(self):
+	def tryTelemetry(self):
+		if Config.DEBUG:
+			print("[DEBUG] GET : " + Config.BASE_URL + "/ajax/telemetry.php")
+		r = requests.get(Config.BASE_URL + "/ajax/telemetry.php", verify=False, proxies=Config.PROXY, headers=Config.HEADERS)
+		if (r.status_code == 200):
+			Config.AJAX_TELEMETRY = json.loads(r.content[r.content.find('{'):r.content.find('</code></pre>')])
+
+	def getVersion(self, request):
+			try:
+				version = request.content[request.content.find('GLPI version ')+len('GLPI version '):]
+				version = version[:version.find(' Copyright')]
+				Version(version)
+				return version
+			except:
+				pass
+			try:
+				version = request.content[request.content.find('?v=')+len('?v='):]
+				version = version[:version.find('"')]
+				Version(version)
+				return version
+			except:
+				pass
+			try:
+				version = request.content[request.content.find('">GLPI ')+len('">GLPI '):]
+				version = version[:version.find(' Copyright')]
+				Version(version)
+				return version
+			except:
+				return False
+
+	def checkVersion(self):
 		if Config.DEBUG:
 			print("[DEBUG] GET : " + Config.BASE_URL)
-		r = requests.get(Config.BASE_URL, verify=False)
-		version = r.content[r.content.find('?v=')+len('?v='):]
-		version = version[:version.find('"')]
-		Config.VERSION = version
+		if not Config.VERSION:
+			if not AjaxTelemetry.AjaxTelemetry().getGLPIVersion():
+				r = requests.get(Config.BASE_URL, verify=False, proxies=Config.PROXY, headers=Config.HEADERS)
+				Config.VERSION = self.getVersion(r)
+			if not Config.VERSION:
+				print(chalk.white('[!] Cannot find GLPI Version', bold=True))
+				return False
 		print(chalk.white('[+] Version of GLPI : ', bold=True) + chalk.yellow(Config.VERSION, bold=True))
 		Exploits.ExploitsCheck().verifExploit('GLPI', Config.VERSION)
-
+	
 	def checkServer(self):
 		try:
 			if Config.DEBUG:
 				print("[DEBUG] GET : " + Config.BASE_URL)
-			r = requests.get(Config.BASE_URL, timeout=10, verify=False)
+			r = requests.get(Config.BASE_URL, timeout=10, verify=False, proxies=Config.PROXY, headers=Config.HEADERS)
 			print(chalk.white('[+] Server Header : ', bold=True) + chalk.yellow(r.headers['Server'], bold=True))
 			self.getURLBase(r.content)
 			self.getRootDoc(r.content)
-			self.getVersion()
+			self.tryTelemetry()
+			self.checkVersion()
 			return True
 		except Exception as e:
 			print(chalk.red('[-] ' + Config.BASE_URL + ' seems not accessible', bold=True))

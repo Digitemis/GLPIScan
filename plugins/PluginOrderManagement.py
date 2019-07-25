@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from inc import Config, Exploits
+from inc import Config, Exploits, AjaxTelemetry
 
 import requests, chalk
 
@@ -9,7 +9,7 @@ class PluginOrderManagement:
 	def getVersion(self, info):
 		if Config.DEBUG:
 			print("[DEBUG] GET : " + Config.BASE_URL + info[0])
-		r = requests.get(Config.BASE_URL + info[0])
+		r = requests.get(Config.BASE_URL + info[0], verify=False, proxies=Config.PROXY, headers=Config.HEADERS)
 		content = r.content
 		version = content[content.find('<num>') + len('<num>'):]
 		version = version[:version.find('<')]

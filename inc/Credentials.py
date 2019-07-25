@@ -2,17 +2,26 @@
 
 import Config
 
-import requests, chalk
+import requests, chalk, re
 
 class CredentialsCheck:
 
+	def checkAuthent(self, request, user):
+		if request.status_code == 302:
+			print(chalk.white('[+] Valid user account found : ', bold=True) + chalk.red(user[0] + ':' + user[1], bold=True))
+		elif request.status_code == 200 and request.content.find("window.location='/front/") != -1:
+			print(chalk.white('[+] Valid user account found : ', bold=True) + chalk.red(user[0] + ':' + user[1], bold=True))
+
 	def getLoginField(self, content):
-		login = content[content.find('<input type="text" name="')+len('<input type="text" name="'):]
+
+		content = re.findall(r'name=\".*id=\"login_name\"', content)[0]
+		login = content[content.find('name="')+len('name="'):]
 		login = login[:login.find('"')]
 		return login
 
 	def getPasswordField(self, content):
-		password = content[content.find('<input type="password" name="')+len('<input type="password" name="'):]
+		content = re.findall(r'type="password" name=\".*.id=\"login_password\"', content)[0]
+		password = content[content.find('name="')+len('name="'):]
 		password = password[:password.find('"')]
 		return password
 
@@ -22,19 +31,18 @@ class CredentialsCheck:
 		return csrf
 
 	def Authenticate(self, user, loginField, passwordField, CSRFField):
-		payload = {'noAUTO': '1', loginField: user[0], passwordField: user[1], 'auth': 'local', 'submit': 'Envoyer', '_glpi_csrf_token': CSRFField}
+		payload = {'_glpi_csrf_token': CSRFField, passwordField: user[1], loginField: user[0], 'submit': 'Submit'}
 		cookie = {Config.COOKIE.split('=')[0]:Config.COOKIE.split('=')[1]}
 		if Config.DEBUG:
 			print("[DEBUG] POST : " + Config.BASE_URL + "/front/login.php")
-		proxy = {"http": "http://127.0.0.1:8080"}
-		r = requests.post(Config.BASE_URL + "/front/login.php", data=payload, cookies=cookie, allow_redirects=False, verify=False)
-		if r.status_code == 302:
-			print(chalk.white('[+] Valid user account found : ', bold=True) + chalk.red(user[0] + ':' + user[1], bold=True))
+		Config.HEADERS['Referer'] = Config.BASE_URL + "/"
+ 		r = requests.post(Config.BASE_URL + "/front/login.php", data=payload, cookies=cookie, allow_redirects=False, verify=False, proxies=Config.PROXY, headers=Config.HEADERS)
+ 		self.checkAuthent(r, user)
 
 	def getAuthForm(self, user):
 		if Config.DEBUG:
 			print("[DEBUG] GET : " + Config.BASE_URL)
-		r = requests.get(Config.BASE_URL, verify=False)
+		r = requests.get(Config.BASE_URL, verify=False, proxies=Config.PROXY, headers=Config.HEADERS)
 		Config.COOKIE = r.headers.get('Set-Cookie').split(';')[0]
 		loginField = self.getLoginField(r.content)
 		passwordField = self.getPasswordField(r.content)

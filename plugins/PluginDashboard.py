@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from inc import Config, Exploits
+from inc import Config, Exploits, AjaxTelemetry
 
 import requests, chalk
 
@@ -9,7 +9,7 @@ class PluginDashboard:
 	def getVersion(self, info):
 		if Config.DEBUG:
 			print("[DEBUG] GET : " + Config.BASE_URL + info[0])
-		r = requests.get(Config.BASE_URL + info[0], verify=False)
+		r = requests.get(Config.BASE_URL + info[0], verify=False, proxies=Config.PROXY, headers=Config.HEADERS)
 		content = r.content
 		version = content[content.find('Version ') + len('Version '):]
 		version = version[:version.find(':')]
@@ -17,5 +17,7 @@ class PluginDashboard:
  		return version
 
 	def initPlugin(self, info):
-		version = self.getVersion(info)
+		version = AjaxTelemetry.AjaxTelemetry().getPluginVersion(info, 'dashboard')
+		if not version:
+			version = self.getVersion(info)
 		Exploits.ExploitsCheck().verifExploit(info[1], version)
