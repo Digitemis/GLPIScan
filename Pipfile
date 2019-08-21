@@ -1,0 +1,15 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+pychalk = ">=2.0.1"
+requests = ">=2.18.4"
+urllib3 = ">=1.22"
+packaging = ">=19.0"
+
+[requires]
+python_version = "3"

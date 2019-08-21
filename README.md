@@ -4,6 +4,8 @@ GLPIScan is a vulnerability scanner for GLPI.
 
 ## Prerequisites
 
+GLPIScan has been developped for python3.
+
 * pychalk >= 2.0.1 - Recommended: latest 
 * requests >= 2.18.4 - Recommended: latest 
 * urllib3 >= 1.22 - Recommended: latest 
@@ -11,11 +13,21 @@ GLPIScan is a vulnerability scanner for GLPI.
 
 ## Installation
 
-In order to install GLPIScan, you only need to clone the repository, and install the python dependencies using the requirements.txt
+2 possiblities is offered to install and use GLPIScan
 
+### Classic installation
+In order to install GLPIScan, you only need to clone the repository, and install the python dependencies using the requirements.txt
 
 ```bash
 $ pip install -r requirements.txt
+```
+
+### Pipenv installation
+It is also possible to use pipenv in order to install all dependencies inside a virtual environnment :
+```bash
+$ python3 -m pip install pipenv 
+$ python3 -m pipenv install
+$ python3 -m pipenv shell
 ```
 
 ## Usage
@@ -40,7 +52,7 @@ optional arguments:
 Most common usage :
 
 ```bash
-$ python GLPIScan.py -u http://glpi/ -a
+$ python3 GLPIScan.py -u http://glpi/ -a
 ```
 
 ## Further configuration
