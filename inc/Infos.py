@@ -28,23 +28,23 @@ class UrlCheck:
             content = r.content.decode('utf-8')
             Config.AJAX_TELEMETRY = json.loads(content[content.find('{'):content.find('</code></pre>')])
 
-    def getVersion(self, request):
+    def getVersion(self, content):
             try:
-                version = request.content[request.content.find('GLPI version ')+len('GLPI version '):]
+                version = content[content.find('GLPI version ')+len('GLPI version '):]
                 version = version[:version.find(' Copyright')]
                 Version(version)
                 return version
             except:
                 pass
             try:
-                version = request.content[request.content.find('?v=')+len('?v='):]
+                version = content[content.find('?v=')+len('?v='):]
                 version = version[:version.find('"')]
                 Version(version)
                 return version
             except:
                 pass
             try:
-                version = request.content[request.content.find('">GLPI ')+len('">GLPI '):]
+                version = content[content.find('">GLPI ')+len('">GLPI '):]
                 version = version[:version.find(' Copyright')]
                 Version(version)
                 return version
@@ -57,7 +57,7 @@ class UrlCheck:
         if not Config.VERSION:
             if not AjaxTelemetry().getGLPIVersion():
                 r = requests.get(Config.BASE_URL, verify=False, proxies=Config.PROXY, headers=Config.HEADERS)
-                Config.VERSION = self.getVersion(r.decode('utf-8'))
+                Config.VERSION = self.getVersion(r.content.decode('utf-8')).strip()
             if not Config.VERSION:
                 print(chalk.white('[!] Cannot find GLPI Version', bold=True))
                 return False
