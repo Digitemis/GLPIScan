@@ -49,7 +49,23 @@ class CredentialsCheck:
     def credentials(self):
         print(chalk.green('\n[+] Performing Credential check', bold=True))
         print(chalk.green('===============================\n', bold=True))
-        for user in Config.USERS:
-            if Config.DEBUG:
-                print("[DEBUG] Trying " + user[0] + ":" + user[1])
-            self.getAuthForm(user)
+        if Config.CREDSFILE:
+            try:
+                users = open(Config.CREDSFILE,"r")
+                while True:
+                    user = users.readline()
+                    if not user: 
+                        break
+                    user = user.rstrip('\n').split(':', 1)
+                    if Config.DEBUG:
+                        print("[DEBUG] Trying " + user[0] + " : " + user[1])
+                    self.getAuthForm(user)
+            except Exception as e:
+                print(chalk.red('[-] ' + Config.CREDSFILE + ' file not found', bold=True))
+                return False
+
+        else:
+            for user in Config.USERS:
+                if Config.DEBUG:
+                    print("[DEBUG] Trying " + user[0] + ":" + user[1])
+                self.getAuthForm(user)

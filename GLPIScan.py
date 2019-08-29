@@ -17,7 +17,7 @@ def parsing():
     parser.add_argument('-u', dest='url', metavar="url", required=True, help='URL of GLPI application')
     parser.add_argument('-a', dest='allcheck', action='store_true', default=False, help='Perform allcheck')
     parser.add_argument('-c', dest='credscheck', action='store_true', default=False, help='Perform Credential Check')
-    parser.add_argument('-C', dest='credsfile', action='store_true', default=False, help='Perform Credential Check with specific wordlist (user:password)')
+    parser.add_argument('-C', dest='credsfile', metavar='credsfile', help='Perform Credential Check with specific wordlist (user:password)')
     parser.add_argument('-f', dest='filescheck', action='store_true', default=False, help='Perform Files Check')
     parser.add_argument('-p', dest='pluginscheck', action='store_true', default=False, help='Perform Plugin Check')
     parser.add_argument('-d', dest='debug', action='store_true', default=False, help='Debug mode')
@@ -44,7 +44,7 @@ def main():
     parsing()
     print(chalk.white("[+] GLPI Scan start : " + Config.BASE_URL + "\n", bold=True))
     if (Infos.UrlCheck().getInfo()):
-        if (Config.ALLCHECK or Config.CREDSCHECK):
+        if (Config.ALLCHECK or Config.CREDSCHECK or Config.CREDSFILE):
             Credentials.CredentialsCheck().credentials()
 
         if (Config.ALLCHECK or Config.FILESCHECK):

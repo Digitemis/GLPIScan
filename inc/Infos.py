@@ -65,19 +65,19 @@ class UrlCheck:
         Exploits().verifExploit('GLPI', Config.VERSION)
     
     def checkServer(self):
-        # try:
-        if Config.DEBUG:
-            print("[DEBUG] GET : " + Config.BASE_URL)
-        r = requests.get(Config.BASE_URL, timeout=10, verify=False, proxies=Config.PROXY, headers=Config.HEADERS)
-        print(chalk.white('[+] Server Header : ', bold=True) + chalk.yellow(r.headers['Server'], bold=True))
-        self.getURLBase(r.content.decode('utf-8'))
-        self.getRootDoc(r.content.decode('utf-8'))
-        self.tryTelemetry()
-        self.checkVersion()
-        return True
-        # except Exception as e:
-        #     print(chalk.red('[-] ' + Config.BASE_URL + ' seems not accessible', bold=True))
-        #     return False
+        try:
+            if Config.DEBUG:
+                print("[DEBUG] GET : " + Config.BASE_URL)
+            r = requests.get(Config.BASE_URL, timeout=10, verify=False, proxies=Config.PROXY, headers=Config.HEADERS)
+            print(chalk.white('[+] Server Header : ', bold=True) + chalk.yellow(r.headers['Server'], bold=True))
+            self.getURLBase(r.content.decode('utf-8'))
+            self.getRootDoc(r.content.decode('utf-8'))
+            self.tryTelemetry()
+            self.checkVersion()
+            return True
+        except Exception as e:
+            print(chalk.red('[-] ' + Config.BASE_URL + ' seems not accessible', bold=True))
+            return False
 
     def getInfo(self):
         print(chalk.green('[+] Gathering basic information', bold=True))

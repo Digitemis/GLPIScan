@@ -22,6 +22,9 @@ ALLCHECK = False
 # By default do not perfom credentials checks on GLPI
 CREDSCHECK = False
 
+# By default do not perfom credentials checks on GLPI
+CREDSFILE = False
+
 # By default do not perfom files checks on GLPI
 FILESCHECK = False
 
