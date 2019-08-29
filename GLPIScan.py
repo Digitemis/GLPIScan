@@ -10,14 +10,14 @@ print(chalk.white("/\\  ___\\   /\\ \\       /\\  == \\ /\\ \\   /\\  ___\\   /\
 print(chalk.white("\\ \\ \\__ \\  \\ \\ \\____  \\ \\  __/ \\ \\ \\  \\ \\___  \\  \\ \\ \\____  \\ \\  __ \\  \\ \\ \\-.  \\ ", bold=True))
 print(chalk.white(" \\ \\_____\\  \\ \\_____\\  \\ \\_\\    \\ \\_\\  \\/\\_____\\  \\ \\_____\\  \\ \\_\\ \\_\\  \\ \\_\\\"\\_\\", bold=True))
 print(chalk.white("  \\/_____/   \\/_____/   \\/_/     \\/_/   \\/_____/   \\/_____/   \\/_/\\/_/   \\/_/ \\/_/", bold=True))
-print(chalk.white("                                                      v1.2 contact[@]digitemis.com\n\n\n", bold=True))
+print(chalk.white("                                                      v1.3 contact[@]digitemis.com\n\n\n", bold=True))
 
 def parsing():
     parser = argparse.ArgumentParser(description='GLPI Vulnerability Scanner.')
     parser.add_argument('-u', dest='url', metavar="url", required=True, help='URL of GLPI application')
     parser.add_argument('-a', dest='allcheck', action='store_true', default=False, help='Perform allcheck')
     parser.add_argument('-c', dest='credscheck', action='store_true', default=False, help='Perform Credential Check')
-    parser.add_argument('-C', dest='credsfile', metavar='credsfile', help='Perform Credential Check with specific wordlist (user:password)')
+    parser.add_argument('-C', dest='credsfile', metavar='credsfile', help='Perform Credential Check with specific wordlist file (user:password)')
     parser.add_argument('-f', dest='filescheck', action='store_true', default=False, help='Perform Files Check')
     parser.add_argument('-p', dest='pluginscheck', action='store_true', default=False, help='Perform Plugin Check')
     parser.add_argument('-d', dest='debug', action='store_true', default=False, help='Debug mode')

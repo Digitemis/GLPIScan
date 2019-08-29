@@ -14,9 +14,7 @@ class PluginInventoryNumberGeneration:
             version = version[:version.find('<')]
             print(chalk.white('\t[+] Version of [', bold=True) + chalk.yellow(info[1], bold=True) + chalk.white('] : [', bold=True) + chalk.yellow(version, bold=True) + chalk.white(']', bold=True))
             return version
-        else:
-            print(chalk.white('\t[-] Version not found : ', bold=True) + chalk.yellow(Config.BASE_URL + info[0], bold=True))
-            return False
+        return False
 
     def initPlugin(self, info):
         version = AjaxTelemetry().getPluginVersion(info, 'geninventorynumber')
@@ -24,3 +22,5 @@ class PluginInventoryNumberGeneration:
             version = self.getVersion(info)
         if version:
             Exploits().verifExploit(info[1], version)
+        else:
+            print(chalk.white('\t[-] Version not found : ', bold=True) + chalk.yellow(Config.BASE_URL + info[0], bold=True))
