@@ -31,15 +31,15 @@ class CredentialsCheck:
         payload = {'_glpi_csrf_token': CSRFField, passwordField: user[1], loginField: user[0], 'submit': 'Submit'}
         cookie = {Config.COOKIE.split('=')[0]:Config.COOKIE.split('=')[1]}
         if Config.DEBUG:
-            print("[DEBUG] POST : " + Config.BASE_URL + "/front/login.php")
-        Config.HEADERS['Referer'] = Config.BASE_URL + "/"
-        r = requests.post(Config.BASE_URL + "/front/login.php", data=payload, cookies=cookie, allow_redirects=False, verify=False, proxies=Config.PROXY, headers=Config.HEADERS)
+            print("[DEBUG] POST : " + Config.GLPI_URL + "/front/login.php")
+        Config.HEADERS['Referer'] = Config.GLPI_URL + "/"
+        r = requests.post(Config.GLPI_URL + "/front/login.php", data=payload, cookies=cookie, allow_redirects=False, verify=False, proxies=Config.PROXY, headers=Config.HEADERS)
         self.checkAuthent(r, user)
 
     def getAuthForm(self, user):
         if Config.DEBUG:
-            print("[DEBUG] GET : " + Config.BASE_URL)
-        r = requests.get(Config.BASE_URL, verify=False, proxies=Config.PROXY, headers=Config.HEADERS)
+            print("[DEBUG] GET : " + Config.GLPI_URL)
+        r = requests.get(Config.GLPI_URL, verify=False, proxies=Config.PROXY, headers=Config.HEADERS)
         Config.COOKIE = r.headers.get('Set-Cookie').split(';')[0]
         loginField = self.getLoginField(r.content.decode('utf-8'))
         passwordField = self.getPasswordField(r.content.decode('utf-8'))

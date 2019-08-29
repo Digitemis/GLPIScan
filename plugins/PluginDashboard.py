@@ -6,8 +6,8 @@ class PluginDashboard:
 
     def getVersion(self, info):
         if Config.DEBUG:
-            print("[DEBUG] GET : " + Config.BASE_URL + info[0])
-        r = requests.get(Config.BASE_URL + info[0], verify=False, proxies=Config.PROXY, headers=Config.HEADERS)
+            print("[DEBUG] GET : " + Config.GLPI_URL + info[0])
+        r = requests.get(Config.GLPI_URL + info[0], verify=False, proxies=Config.PROXY, headers=Config.HEADERS)
         content = r.content.decode("utf-8")
         if content.find('Version ') != -1:
             version = content[content.find('Version ') + len('Version '):]
@@ -23,4 +23,4 @@ class PluginDashboard:
         if version:
             Exploits().verifExploit(info[1], version)
         else:
-            print(chalk.white('\t[-] Version not found : ', bold=True) + chalk.yellow(Config.BASE_URL + info[0], bold=True))
+            print(chalk.white('\t[-] Version not found : ', bold=True) + chalk.yellow(Config.GLPI_URL + info[0], bold=True))

@@ -16,18 +16,25 @@ class FilesCheck:
 
     def getFile(self, file):
         if Config.DEBUG:
-            print("[DEBUG] GET : " + Config.BASE_URL + file)
-        r = requests.get(Config.BASE_URL + file, verify=False, proxies=Config.PROXY, headers=Config.HEADERS)
+            print("[DEBUG] GET : " + Config.GLPI_URL + file)
+        r = requests.get(Config.GLPI_URL + file, verify=False, proxies=Config.PROXY, headers=Config.HEADERS)
         if (r.status_code == 200):
-            print(chalk.white('[+] Interesting file found : ', bold=True) + chalk.red(Config.BASE_URL + file, bold=True))
+            print(chalk.white('[+] Interesting file found : ', bold=True) + chalk.red(Config.GLPI_URL + file, bold=True))
 
     def getFolder(self, folder):
         if Config.DEBUG:
-            print("[DEBUG] GET : " + Config.BASE_URL + folder)
-        r = requests.get(Config.BASE_URL + folder, verify=False, proxies=Config.PROXY, headers=Config.HEADERS)
-        if (r.status_code == 200):
-            print(chalk.white('\n[+] Interesting folder found : ', bold=True) + chalk.red(Config.BASE_URL + folder, bold=True))
-            self.listFolder(Config.BASE_URL + folder)
+            print("[DEBUG] GET : " + Config.GLPI_URL + folder)
+        r = requests.get(Config.GLPI_URL + folder, verify=False, proxies=Config.PROXY, headers=Config.HEADERS, allow_redirects=False)
+        if (r.status_code == 301):
+            print(chalk.white('\n[+] Interesting folder found : ', bold=True) + chalk.red(Config.GLPI_URL + folder, bold=True))
+            self.listFolder(Config.GLPI_URL + folder)
+
+    def getServer(self, url):
+        if Config.DEBUG:
+            print("[DEBUG] GET : " + Config.SERVER_ROOT + url)
+        r = requests.get(Config.SERVER_ROOT + url, verify=False, proxies=Config.PROXY, headers=Config.HEADERS, allow_redirects=False)
+        if (r.status_code == 301):
+            print(chalk.white('[+] Interesting URL found : ', bold=True) + chalk.red(Config.SERVER_ROOT + url, bold=True))
 
     def files(self):
         print(chalk.green('\n[+] Performing default files check', bold=True))
@@ -38,3 +45,7 @@ class FilesCheck:
         print(chalk.green('====================================', bold=True))
         for folder in Config.FOLDERS:
             self.getFolder(folder)
+        print(chalk.green('\n[+] Performing default server check', bold=True))
+        print(chalk.green('===================================\n', bold=True))
+        for url in Config.SERVER:
+            self.getServer(url)

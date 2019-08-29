@@ -5,10 +5,10 @@ requests.packages.urllib3.disable_warnings()
 DEBUG = False
 
 # Base URL of the scanned GLPI
-BASE_URL = ""
+GLPI_URL = ""
 
 # Root folder of the scanned GLPI
-ROOT_DOC = "/"
+SERVER_ROOT = ""
 
 # Version of the scanned GLPI
 VERSION = ""
@@ -39,23 +39,30 @@ HEADERS = {}
 
 COOKIE = ""
 
+SERVER = ['/phpmyadmin',
+        '/ocsreport',
+        ]
+
 FILES = ['/ajax/telemetry.php',
         '/CHANGELOG.md',
         '/status.php',
         '/files/_log/cron.log',
         '/files/_log/event.log',
-        '/files/_log/php-errors.log']
+        '/files/_log/php-errors.log',
+        ]
 
 FOLDERS = ['/files/',
            '/files/_dumps/',
            '/plugins/',
-           '/plugins_old/']
+           '/plugins_old/',
+           ]
 
 # ['USER', 'PASSWORD']
 USERS = [['glpi','glpi'],
          ['post-only','postonly'],
          ['tech','tech'],
-         ['normal', 'normal']]
+         ['normal', 'normal'],
+         ]
 
 # ['URL_VERIFY', 'PLUGIN_NAME', 'PLUGIN_URL', 'PLUGIN_CLASS']
 PLUGINS = [['/plugins/addressing/LICENSE', 'IP Report', 'https://plugins.glpi-project.org/#/plugin/addressing', 'PluginAddressing'],

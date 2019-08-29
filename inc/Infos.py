@@ -10,20 +10,13 @@ class UrlCheck:
         if (content.find("'url_base': '") != -1):
             url_base = content[content.find("'url_base': '")+len("'url_base': '"):]
             url_base = url_base[:url_base.find("'")]
-            Config.BASE_URL = url_base
-        print(chalk.white('[+] url_base : ', bold=True) + chalk.yellow(Config.BASE_URL, bold=True))
-
-    def getRootDoc(self, content):
-        if (content.find("'root_doc': '") != -1):
-            root_doc = content[content.find("'root_doc': '")+len("'root_doc': '"):]
-            root_doc = root_doc[:root_doc.find("'")]
-            Config.ROOT_DOC = root_doc
-        print(chalk.white('[+] root_doc : ', bold=True) + chalk.yellow(Config.ROOT_DOC, bold=True))
+            Config.GLPI_URL = url_base
+        print(chalk.white('[+] url_base : ', bold=True) + chalk.yellow(Config.GLPI_URL, bold=True))
 
     def tryTelemetry(self):
         if Config.DEBUG:
-            print("[DEBUG] GET : " + Config.BASE_URL + "/ajax/telemetry.php")
-        r = requests.get(Config.BASE_URL + "/ajax/telemetry.php", verify=False, proxies=Config.PROXY, headers=Config.HEADERS)
+            print("[DEBUG] GET : " + Config.GLPI_URL + "/ajax/telemetry.php")
+        r = requests.get(Config.GLPI_URL + "/ajax/telemetry.php", verify=False, proxies=Config.PROXY, headers=Config.HEADERS)
         if (r.status_code == 200):
             content = r.content.decode('utf-8')
             Config.AJAX_TELEMETRY = json.loads(content[content.find('{'):content.find('</code></pre>')])
@@ -53,10 +46,10 @@ class UrlCheck:
 
     def checkVersion(self):
         if Config.DEBUG:
-            print("[DEBUG] GET : " + Config.BASE_URL)
+            print("[DEBUG] GET : " + Config.GLPI_URL)
         if not Config.VERSION:
             if not AjaxTelemetry().getGLPIVersion():
-                r = requests.get(Config.BASE_URL, verify=False, proxies=Config.PROXY, headers=Config.HEADERS)
+                r = requests.get(Config.GLPI_URL, verify=False, proxies=Config.PROXY, headers=Config.HEADERS)
                 Config.VERSION = self.getVersion(r.content.decode('utf-8')).strip()
             if not Config.VERSION:
                 print(chalk.white('[!] Cannot find GLPI Version', bold=True))
@@ -67,16 +60,16 @@ class UrlCheck:
     def checkServer(self):
         try:
             if Config.DEBUG:
-                print("[DEBUG] GET : " + Config.BASE_URL)
-            r = requests.get(Config.BASE_URL, timeout=10, verify=False, proxies=Config.PROXY, headers=Config.HEADERS)
+                print("[DEBUG] GET : " + Config.GLPI_URL)
+            r = requests.get(Config.GLPI_URL, timeout=10, verify=False, proxies=Config.PROXY, headers=Config.HEADERS)
             print(chalk.white('[+] Server Header : ', bold=True) + chalk.yellow(r.headers['Server'], bold=True))
+            Config.SERVER_ROOT = "/".join(Config.GLPI_URL.split("/", 3)[:3])
             self.getURLBase(r.content.decode('utf-8'))
-            self.getRootDoc(r.content.decode('utf-8'))
             self.tryTelemetry()
             self.checkVersion()
             return True
         except Exception as e:
-            print(chalk.red('[-] ' + Config.BASE_URL + ' seems not accessible', bold=True))
+            print(chalk.red('[-] ' + Config.GLPI_URL + ' seems not accessible', bold=True))
             return False
 
     def getInfo(self):

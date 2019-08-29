@@ -10,7 +10,7 @@ print(chalk.white("/\\  ___\\   /\\ \\       /\\  == \\ /\\ \\   /\\  ___\\   /\
 print(chalk.white("\\ \\ \\__ \\  \\ \\ \\____  \\ \\  __/ \\ \\ \\  \\ \\___  \\  \\ \\ \\____  \\ \\  __ \\  \\ \\ \\-.  \\ ", bold=True))
 print(chalk.white(" \\ \\_____\\  \\ \\_____\\  \\ \\_\\    \\ \\_\\  \\/\\_____\\  \\ \\_____\\  \\ \\_\\ \\_\\  \\ \\_\\\"\\_\\", bold=True))
 print(chalk.white("  \\/_____/   \\/_____/   \\/_/     \\/_/   \\/_____/   \\/_____/   \\/_/\\/_/   \\/_/ \\/_/", bold=True))
-print(chalk.white("                                                      v1.3 contact[@]digitemis.com\n\n\n", bold=True))
+print(chalk.white("                                                      v1.4 contact[@]digitemis.com\n\n\n", bold=True))
 
 def parsing():
     parser = argparse.ArgumentParser(description='GLPI Vulnerability Scanner.')
@@ -24,7 +24,7 @@ def parsing():
     args = parser.parse_args()
 
     Config.DEBUG = args.debug
-    Config.BASE_URL = args.url
+    Config.GLPI_URL = args.url
     Config.ALLCHECK = args.allcheck
     Config.CREDSCHECK = args.credscheck
     Config.CREDSFILE = args.credsfile
@@ -33,7 +33,7 @@ def parsing():
 
     if Config.DEBUG:
         print("[DEBUG] Debug mode : ON")
-        print("[DEBUG] GLPI url : " + Config.BASE_URL)
+        print("[DEBUG] GLPI url : " + Config.GLPI_URL)
         print("[DEBUG] Checking everything : " + str(Config.ALLCHECK))
         print("[DEBUG] Checking Default Creds : " + str(Config.CREDSCHECK))
         print("[DEBUG] Checking Default File : " + str(Config.FILESCHECK))
@@ -42,7 +42,7 @@ def parsing():
 
 def main():
     parsing()
-    print(chalk.white("[+] GLPI Scan start : " + Config.BASE_URL + "\n", bold=True))
+    print(chalk.white("[+] GLPI Scan start : " + Config.GLPI_URL + "\n", bold=True))
     if (Infos.UrlCheck().getInfo()):
         if (Config.ALLCHECK or Config.CREDSCHECK or Config.CREDSFILE):
             Credentials.CredentialsCheck().credentials()

@@ -35,18 +35,19 @@ $ python3 -m pipenv shell
 List of options :
 
 ```
-usage: GLPIScan.py [-h] -u url [-a] [-c] [-f] [-p] [-d]
+usage: GLPIScan.py [-h] -u url [-a] [-c] [-C credsfile] [-f] [-p] [-d]
 
 GLPI Vulnerability Scanner.
 
 optional arguments:
-  -h, --help  show this help message and exit
-  -u url      URL of GLPI application
-  -a          Perform allcheck
-  -c          Perform Credential Check
-  -f          Perform Files Check
-  -p          Perform Plugin Check
-  -d          Debug mode
+  -h, --help    show this help message and exit
+  -u url        URL of GLPI application
+  -a            Perform allcheck
+  -c            Perform Credential Check
+  -C credsfile  Perform Credential Check with specific wordlist file (user:password)
+  -f            Perform Files Check
+  -p            Perform Plugin Check
+  -d            Debug mode
 ```
 
 Most common usage :
