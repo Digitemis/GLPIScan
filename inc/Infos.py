@@ -6,13 +6,6 @@ import requests, json, chalk
 
 class UrlCheck:
 
-    def getURLBase(self, content):
-        if (content.find("'url_base': '") != -1):
-            url_base = content[content.find("'url_base': '")+len("'url_base': '"):]
-            url_base = url_base[:url_base.find("'")]
-            Config.GLPI_URL = url_base
-        print(chalk.white('[+] url_base : ', bold=True) + chalk.yellow(Config.GLPI_URL, bold=True))
-
     def tryTelemetry(self):
         if Config.DEBUG:
             print("[DEBUG] GET : " + Config.GLPI_URL + "/ajax/telemetry.php")
@@ -64,7 +57,6 @@ class UrlCheck:
             r = requests.get(Config.GLPI_URL, timeout=10, verify=False, proxies=Config.PROXY, headers=Config.HEADERS)
             print(chalk.white('[+] Server Header : ', bold=True) + chalk.yellow(r.headers['Server'], bold=True))
             Config.SERVER_ROOT = "/".join(Config.GLPI_URL.split("/", 3)[:3])
-            self.getURLBase(r.content.decode('utf-8'))
             self.tryTelemetry()
             self.checkVersion()
             return True

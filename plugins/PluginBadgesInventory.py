@@ -9,8 +9,8 @@ class PluginBadgesInventory:
             print("[DEBUG] GET : " + Config.GLPI_URL + info[0])
         r = requests.get(Config.GLPI_URL + info[0], verify=False, proxies=Config.PROXY, headers=Config.HEADERS)
         content = r.content.decode("utf-8")
-        if content.find('Badges plugin ') != -1:
-            version = content[content.find('Badges plugin ') + len('Badges plugin '):]
+        if content.find('Project-Id-Version: GLPI - Badges plugin ') != -1:
+            version = content[content.find('Project-Id-Version: GLPI - Badges plugin ') + len('Project-Id-Version: GLPI - Badges plugin '):]
             version = version[:version.find('\\')]
             print(chalk.white('\t[+] Version of [', bold=True) + chalk.yellow(info[1], bold=True) + chalk.white('] : [', bold=True) + chalk.yellow(version, bold=True) + chalk.white(']', bold=True))
             return version

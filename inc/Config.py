@@ -49,12 +49,14 @@ FILES = ['/ajax/telemetry.php',
         '/files/_log/cron.log',
         '/files/_log/event.log',
         '/files/_log/php-errors.log',
+        '/files/_log/mail.log',
+        '/files/_log/sql-errors.log',
         ]
 
-FOLDERS = ['/files/',
-           '/files/_dumps/',
-           '/plugins/',
-           '/plugins_old/',
+FOLDERS = ['/files',
+           '/files/_dumps',
+           '/plugins',
+           '/plugins_old',
            ]
 
 # ['USER', 'PASSWORD']
