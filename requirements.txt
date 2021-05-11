@@ -1,4 +1,4 @@
 pychalk>=2.0.1
 requests>=2.18.4
-urllib3>=1.22
+urllib3>=1.25.8
 packaging>=19.0
