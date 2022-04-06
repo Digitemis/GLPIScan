@@ -213,4 +213,11 @@ CVE = [
        ['GLPI', [['>=', '9.5.0'], ['<', '9.5.4']], 'XSS injection in ajax/kanban', 'https://github.com/glpi-project/glpi/security/advisories/GHSA-j4xj-4qmc-mmmx', 'CVE-2021-21258'],
        ['GLPI', [['=', '9.5.3']], 'Entities switch IDOR', 'https://github.com/glpi-project/glpi/security/advisories/GHSA-v3m5-r3mx-ff9j', 'CVE-2021-21255'],
        ['GLPI', [['<', '9.5.5']], 'Stored Cross-Site Scripting (XSS)', 'https://n3k00n3.github.io/blog/09042021/glpi_xss.html', 'CVE-2021-3486'],
+       ['GLPI', [['<', '9.5.6']], 'CSRF Bypass', 'https://github.com/glpi-project/glpi/releases/tag/9.5.6', 'CVE-2021-39209'],
+       ['GLPI', [['<', '9.5.6']], 'Autologin cookie accessible by scripts', 'https://github.com/glpi-project/glpi/releases/tag/9.5.6', 'CVE-2021-39210'],
+       ['GLPI', [['>=', '9.2'], ['<', '9.5.6']], 'Disclosure of GLPI and server informations in telemetry endpoint', 'https://github.com/glpi-project/glpi/releases/tag/9.5.6', 'CVE-2021-39211'],
+       ['GLPI', [['>=', '9.1'],['<', '9.5.6']], 'Bypassable IP restriction on GLPI API using custom header injection', 'https://github.com/glpi-project/glpi/releases/tag/9.5.6', 'CVE-2021-39213'],
+       ['Ramo', [['=', '9.4.6']], 'SQL Injection in Ramo Plugin', 'https://packetstormsecurity.com/files/166285/Baixar-GLPI-Project-9.4.6-SQL-Injection.html', 'CVE-2021-44617'],
+       ['GLPI', [['<', '9.5.7']], 'Reflected XSS using reload button', 'https://github.com/glpi-project/glpi/commit/e9b16bc8e9b61ebb2d35b96b9c71cd25c5af9e48', 'CVE-2022-21719'],
+       ['GLPI', [['<', '9.5.7']], 'SQL injection using custom CSS administration form', 'https://github.com/glpi-project/glpi/commit/5c3eee696b503fdf502f506b00d15cf5b324b326', 'CVE-2022-21720'],
        ]
