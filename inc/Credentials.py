@@ -11,15 +11,24 @@ class CredentialsCheck:
             print(chalk.white('[+] Valid user account found : ', bold=True) + chalk.red(user[0] + ':' + user[1], bold=True))
 
     def getLoginField(self, content):
-        content = re.findall(r'name=\".*id=\"login_name\"', content)[0]
-        login = content[content.find('name="')+len('name="'):]
-        login = login[:login.find('"')]
+        firstversion = Config.VERSION.split(".")
+
+        if(int(firstversion[0]) == 0):
+            login = "login_name"
+        else:
+            content = re.findall(r'name="(field[a-z0-9]{14})', content)
+            login = content[0]  
         return login
 
+
     def getPasswordField(self, content):
-        content = re.findall(r'type="password" name=\".*.id=\"login_password\"', content)[0]
-        password = content[content.find('name="')+len('name="'):]
-        password = password[:password.find('"')]
+        firstversion = Config.VERSION.split(".")
+
+        if(int(firstversion[0]) == 0):
+            password = "login_password"
+        else:
+            content = re.findall(r'name="(field[a-z0-9]{14})', content)
+            password = content[1]
         return password
 
     def getCSRFField(self, content):

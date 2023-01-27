@@ -10,6 +10,19 @@ class UrlCheck:
         if Config.DEBUG:
             print("[DEBUG] GET : " + Config.GLPI_URL + "/ajax/telemetry.php")
         r = requests.get(Config.GLPI_URL + "/ajax/telemetry.php", verify=False, proxies=Config.PROXY, headers=Config.HEADERS)
+
+        if (r.status_code == 200):
+            try:
+                content = r.content.decode('utf-8')
+                Config.AJAX_TELEMETRY = json.loads(content[content.find('{'):content.find('</code></pre>')])
+            except:
+                return False
+
+
+    def tryGetVersion(self):
+        if Config.DEBUG:
+            print("[DEBUG] GET : " + Config.GLPI_URL + "/ajax/telemetry.php")
+        r = requests.get(Config.GLPI_URL + "/ajax/telemetry.php", verify=False, proxies=Config.PROXY, headers=Config.HEADERS)
         if (r.status_code == 200):
             content = r.content.decode('utf-8')
             Config.AJAX_TELEMETRY = json.loads(content[content.find('{'):content.find('</code></pre>')])
@@ -34,6 +47,18 @@ class UrlCheck:
                 version = version[:version.find(' Copyright')]
                 Version(version)
                 return version
+            except:
+                pass
+            try:
+                # Find GLPI version V10.XX.XX
+                r = requests.get(Config.GLPI_URL + "/public/lib/photoswipe.js.map", verify=False, proxies=Config.PROXY, headers=Config.HEADERS)
+                if (r.status_code == 200):
+                    content = r.content.decode('utf-8')
+
+                    first_index = content.find('glpi-')
+                    second_index = content.find('/glpi/node_modules/', first_index)
+                    version = content[first_index+5:second_index]
+                    return version
             except:
                 return False
 
@@ -61,6 +86,7 @@ class UrlCheck:
             self.checkVersion()
             return True
         except Exception as e:
+            print(e)
             print(chalk.red('[-] ' + Config.GLPI_URL + ' seems not accessible', bold=True))
             return False
 
