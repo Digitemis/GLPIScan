@@ -86,7 +86,8 @@ class UrlCheck:
             self.checkVersion()
             return True
         except Exception as e:
-            print(e)
+            if Config.DEBUG:
+                print(e)
             print(chalk.red('[-] ' + Config.GLPI_URL + ' seems not accessible', bold=True))
             return False
 
