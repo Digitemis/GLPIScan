@@ -50,7 +50,3 @@ class FilesCheck:
         print(chalk.green('===================================\n', bold=True))
         for url in Config.SERVER:
             self.getServer(url)
-        
-
-        
-
