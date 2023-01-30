@@ -26,7 +26,7 @@ class FilesCheck:
             print("[DEBUG] GET : " + Config.GLPI_URL + folder)
         r = requests.get(Config.GLPI_URL + folder, verify=False, proxies=Config.PROXY, headers=Config.HEADERS, allow_redirects=False)
         if (r.status_code == 301):
-            print(chalk.white('\n[+] Interesting folder found : ', bold=True) + chalk.red(Config.GLPI_URL +folder, bold=True))
+            print(chalk.white('\n[+] Interesting folder found : ', bold=True) + chalk.red(Config.GLPI_URL + folder, bold=True))
             self.listFolder(Config.GLPI_URL + folder)
 
     def getServer(self, url):
