@@ -50,7 +50,6 @@ def main():
             Credentials.CredentialsCheck().credentials()
         if (Config.ALLCHECK or Config.FILESCHECK):
             Files.FilesCheck().files()
-
         if (Config.ALLCHECK or Config.PLUGINSCHECK):
             Plugins.PluginsCheck().plugins()
 main()
