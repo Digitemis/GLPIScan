@@ -40,6 +40,7 @@ HEADERS = {}
 COOKIE = ""
 
 SERVER = ['/phpmyadmin',
+        '/adminer',
         '/ocsreport',
         ]
 
@@ -51,10 +52,13 @@ FILES = ['/ajax/telemetry.php',
         '/files/_log/php-errors.log',
         '/files/_log/mail.log',
         '/files/_log/sql-errors.log',
+        '/vendor/htmlawed/htmlawed/htmLawedTest.php'
+
         ]
 
 FOLDERS = ['/files',
            '/files/_dumps',
+           '/files/_uploads',
            '/plugins',
            '/plugins_old',
            ]
@@ -64,6 +68,7 @@ USERS = [['glpi','glpi'],
          ['post-only','postonly'],
          ['tech','tech'],
          ['normal', 'normal'],
+         ['admin', 'admin']
          ]
 
 # ['URL_VERIFY', 'PLUGIN_NAME', 'PLUGIN_URL', 'PLUGIN_CLASS']
@@ -218,6 +223,45 @@ CVE = [
        ['GLPI', [['>=', '9.2'], ['<', '9.5.6']], 'Disclosure of GLPI and server informations in telemetry endpoint', 'https://github.com/glpi-project/glpi/releases/tag/9.5.6', 'CVE-2021-39211'],
        ['GLPI', [['>=', '9.1'],['<', '9.5.6']], 'Bypassable IP restriction on GLPI API using custom header injection', 'https://github.com/glpi-project/glpi/releases/tag/9.5.6', 'CVE-2021-39213'],
        ['Ramo', [['=', '9.4.6']], 'SQL Injection in Ramo Plugin', 'https://packetstormsecurity.com/files/166285/Baixar-GLPI-Project-9.4.6-SQL-Injection.html', 'CVE-2021-44617'],
-       ['GLPI', [['<', '9.5.7']], 'Reflected XSS using reload button', 'https://github.com/glpi-project/glpi/commit/e9b16bc8e9b61ebb2d35b96b9c71cd25c5af9e48', 'CVE-2022-21719'],
        ['GLPI', [['<', '9.5.7']], 'SQL injection using custom CSS administration form', 'https://github.com/glpi-project/glpi/commit/5c3eee696b503fdf502f506b00d15cf5b324b326', 'CVE-2022-21720'],
+       ['GLPI', [['<=', '9.5.7']], 'Reflected XSS using reload button', 'https://github.com/glpi-project/glpi/commit/e9b16bc8e9b61ebb2d35b96b9c71cd25c5af9e48', 'CVE-2022-21719'],
+       ['GLPI', [['<', '10.0.0']], 'LDAP password exposed on source code', 'https://github.com/glpi-project/glpi/security/advisories/GHSA-4r49-52q9-5fgr', 'CVE-2022-24867'],
+       ['GLPI', [['>=', '0.90'],['<', '10.0.0']], 'Cross Site CSS Injection', 'https://github.com/glpi-project/glpi/security/advisories/GHSA-p94c-8qp5-gfpx', 'CVE-2022-24869'],
+       ['GLPI', [['<', '10.0.0']], 'XSS / open redirect via SVG file upload', 'https://github.com/glpi-project/glpi/security/advisories/GHSA-9hg4-fpwv-gx78', 'CVE-2022-24868'],
+       ['GLPI', [['=', '10.0.0'],['<', '10.0.1']], 'Stored XSS on Kanban', 'https://github.com/glpi-project/glpi/security/advisories/GHSA-33g2-m556-gccr', 'CVE-2022-24876'],
+       ['GLPI', [['=', '10.0.0'],['<', '10.0.1']], 'SQL injection on search pages', 'https://github.com/glpi-project/glpi/security/advisories/GHSA-5w33-4wrx-8hvw', 'CVE-2022-29250'],
+       ['GLPI', [['=', '10.0.0'],['<', '10.0.2']], 'SQL injection on login page', 'https://www.swascan.com/security-advisory-teclib-glpi/', 'CVE-2022-31061'],
+       ['GLPI', [['<', '9.5.8']], 'SQL injection on login page', 'https://www.swascan.com/security-advisory-teclib-glpi/', 'CVE-2022-31061'],
+       ['GLPI', [['>=', '10.0.0'],['<', '10.0.2']], 'SQL injection with _actor parameter in assistance objects', 'https://github.com/glpi-project/glpi/security/advisories/GHSA-9q9x-7xxh-w4cg', 'CVE-2022-31056'],
+       ['GLPI', [['>=', '10.0.0'],['<', '10.0.2']], 'Unauthenticated Sensitive Data Exposure on Refused Inventory Files', 'https://github.com/glpi-project/glpi/security/advisories/GHSA-g4hm-6vfr-q3wg', 'CVE-2022-31068'],
+       ['GLPI', [['>=', '9.5.0'],['<', '10.0.3']], 'XSS through registration API', 'https://github.com/glpi-project/glpi/security/advisories/GHSA-jrgw-cx24-56x5', 'CVE-2022-35945'],
+       ['GLPI', [['>=', '9.5.0'],['<','10.0.3']], 'Leak of sensitive informations through login page error', 'https://github.com/glpi-project/glpi/security/advisories/GHSA-6mmq-x3j2-677j', 'CVE-2022-31143'],
+       ['GLPI', [['=', '10.0.0'],['<', '10.0.3']], 'Stored XSS through global search', 'https://github.com/glpi-project/glpi/security/advisories/GHSA-43j5-xhvj-9236', 'CVE-2022-31187'],
+       ['GLPI', [['<', '10.0.0'],['<', '10.0.3']], 'Command injection using a third-party library script', 'https://mayfly277.github.io/posts/GLPI-htmlawed-CVE-2022-35914/', 'CVE-2022-35914'],
+       ['GLPI', [['<', '9.5.4']], 'Command injection using a third-party library script', 'https://mayfly277.github.io/posts/GLPI-htmlawed-CVE-2022-35914/', 'CVE-2022-35914'],
+       ['GLPI', [['>=', '0.72'],['<', '10.0.3']], 'SQL injection through plugin controller', 'https://github.com/glpi-project/glpi/security/advisories/GHSA-92q5-pfr8-r9r2', 'CVE-2022-35946'],
+       ['GLPI', [['>=', '10.0.0'],['<', '10.0.03']], 'Authentication via SQL injection', 'https://github.com/glpi-project/glpi/security/advisories/GHSA-7p3q-cffg-c8xh', 'CVE-2022-35947'],
+       ['GLPI', [['<', '9.5.9']], 'Authentication via SQL injection', 'https://github.com/glpi-project/glpi/security/advisories/GHSA-7p3q-cffg-c8xh', 'CVE-2022-35947'],
+       ['GLPI', [['>=', '10.0.0'],['<', '10.0.3']], 'Blind Server-Side Request Forgery (SSRF) in RSS feeds and planning', 'https://huntr.dev/bounties/a0788aa8-212f-4624-9086-8b7f391dddac/', 'CVE-2022-36112'],
+       ['GLPI', [['>=', '0.70'],['<', '10.0.4']], 'Improper access to debug panel', 'https://github.com/glpi-project/glpi/security/advisories/GHSA-6c2p-wgx9-vrjc', 'CVE-2022-39370'],
+       ['GLPI', [['<', '10.0.4']], 'User\'s session persist after permanently deleting his account', 'https://huntr.dev/bounties/62096b15-2b7b-4de3-96d1-32754c5f9d44/', 'CVE-2022-39234'],
+       ['GLPI', [['>=', '0.65'],['<', '10.0.4']], 'Stored XSS on login page', 'https://huntr.dev/bounties/54fc907e-6983-4c24-b249-1440aac1643c/', 'CVE-2022-39262'],
+       ['GLPI', [['>=', '9.1'],['<', '10.0.4']], 'SQL Injection on REST API', 'https://github.com/glpi-project/glpi/security/advisories/GHSA-cp6q-9p4x-8hr9', 'CVE-2022-39323'],     
+       ['GLPI', [['<', '10.0.4']], 'Blind Server-Side Request Forgery (SSRF) in RSS feeds and planning', 'https://huntr.dev/bounties/7a88f92b-1ee2-4ca8-9cf8-05fcf6cfe73f/', 'CVE-2022-39276'],     
+       ['GLPI', [['>=', '0.60'],['<', '10.0.4']], 'XSS in external links', 'https://huntr.dev/bounties/8e047ae1-7a7c-48e0-bee3-d1c36e52ff42/', 'CVE-2022-39277'],     
+       ['GLPI', [['>=', '0.70'],['<', '10.0.4']], 'Stored XSS in user information', 'https://github.com/glpi-project/glpi/security/advisories/GHSA-5rj7-95qc-89h2', 'CVE-2022-39372'],     
+       ['GLPI', [['>=', '10.0.0'],['<', '10.0.4']], 'Stored XSS through asset inventory', 'https://github.com/glpi-project/glpi/security/advisories/GHSA-w7wc-728f-6mm8', 'CVE-2022-39371'],     
+       ['GLPI', [['>= ', '10.0.0'],['<', '10.0.4']], 'Stored XSS in entity name', 'https://huntr.dev/bounties/d3c269fc-a865-425f-89e1-15fb32e85e96/', 'CVE-2022-39373'],     
+       ['GLPI', [['>=', '0.84'],['<', '10.0.4']], 'XSS through public RSS feed', 'https://huntr.dev/bounties/b45146ef-0f1a-4de9-90be-5c4d78b34fdf/', 'CVE-2022-39375'],     
+       ['GLPI', [['>=', '10.0.0'],['<', '10.0.6']], 'Improper input validation on emails links', 'https://huntr.dev/bounties/3557ccc4-9325-41e8-ae01-18685adcd888/', 'CVE-2022-39376'],     
+       ['GLPI', [['>=', '0.70'],['<', '9.5.12']], 'Improper input validation on emails links', 'https://huntr.dev/bounties/3557ccc4-9325-41e8-ae01-18685adcd888/', 'CVE-2022-39376'],     
+       ['GLPI', [['>=', '10.0.0'],['<', '10.0.6']], 'XSS Stored inside Standard Interface Help Link href attribute', 'https://huntr.dev/bounties/67f2f5da-5316-4bae-96b6-b0f0d719c4bf/', 'CVE-2022-41941'],     
+       ['GLPI', [['>=', '0.70'],['<', '9.5.12']], 'XSS Stored inside Standard Interface Help Link href attribute', 'https://huntr.dev/bounties/67f2f5da-5316-4bae-96b6-b0f0d719c4bf/', 'CVE-2022-41941'],     
+       ['GLPI', [['>=', '10.0.0'],['<', '10.0.6']], 'XSS in RSS Description Link', 'https://huntr.dev/bounties/dda8bb6d-c556-4a21-9308-43c5bf968003/', 'CVE-2023-22724'],     
+       ['GLPI', [['>=', '0.60'],['<', '9.5.12']], 'XSS on external links', 'https://huntr.dev/bounties/9976a2ed-b105-453c-8af8-2768eb1bbb87/', 'CVE-2023-22725'],     
+       ['GLPI', [['>=', '10.0.0'],['<', '10.0.6']], 'XSS on external links', 'https://huntr.dev/bounties/9976a2ed-b105-453c-8af8-2768eb1bbb87/', 'CVE-2023-22725'],     
+       ['GLPI', [['>=', '9.4.0'],['<', '9.5.12']], 'XSS on browse views', 'https://github.com/glpi-project/glpi/security/advisories/GHSA-352j-wr38-493c', 'CVE-2023-22722'],     
+       ['GLPI', [['>=', '10.0.0'],['<', '10.0.6']], 'XSS on browse views', 'https://github.com/glpi-project/glpi/security/advisories/GHSA-352j-wr38-493c', 'CVE-2023-22722'],     
+       ['GLPI', [['>=', '10.0.0'],['<', '10.0.6']], 'Unauthorized access to inventory files', 'https://github.com/glpi-project/glpi/security/advisories/GHSA-3ghv-p34r-5ghx', 'CVE-2023-22500'],     
+       ['GLPI', [['>=', '10.0.0'],['<', '10.0.6']], 'Unauthorized access to data export', 'https://github.com/glpi-project/glpi/security/advisories/GHSA-6565-hm87-24hf', 'CVE-2023-23610'], 
        ]

@@ -12,7 +12,7 @@ class FilesCheck:
         for content in contents[1:]:
             content = content[content.find('"')+len('"'):]
             content = content[:content.find("\"")]
-            print(chalk.white('\t[+] : ', bold=True) + chalk.yellow(folder + content, bold=True))
+            print(chalk.white('\t[+] : ', bold=True) + chalk.yellow(folder + "/" + content, bold=True))
 
     def getFile(self, file):
         if Config.DEBUG:
@@ -35,6 +35,7 @@ class FilesCheck:
         r = requests.get(Config.SERVER_ROOT + url, verify=False, proxies=Config.PROXY, headers=Config.HEADERS, allow_redirects=False)
         if (r.status_code == 301):
             print(chalk.white('[+] Interesting URL found : ', bold=True) + chalk.red(Config.SERVER_ROOT + url, bold=True))
+
 
     def files(self):
         print(chalk.green('\n[+] Performing default files check', bold=True))

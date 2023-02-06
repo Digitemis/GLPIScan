@@ -16,6 +16,7 @@ def parsing():
     parser = argparse.ArgumentParser(description='GLPI Vulnerability Scanner.')
     parser.add_argument('-u', dest='url', metavar="url", required=True, help='URL of GLPI application')
     parser.add_argument('-a', dest='allcheck', action='store_true', default=False, help='Perform allcheck')
+    parser.add_argument('-e', dest='exploit', action='store_true', default=False, help='Perform vunerability Check')
     parser.add_argument('-c', dest='credscheck', action='store_true', default=False, help='Perform Credential Check')
     parser.add_argument('-C', dest='credsfile', metavar='credsfile', help='Perform Credential Check with specific wordlist file (user:password)')
     parser.add_argument('-f', dest='filescheck', action='store_true', default=False, help='Perform Files Check')
@@ -26,6 +27,7 @@ def parsing():
     Config.DEBUG = args.debug
     Config.GLPI_URL = args.url
     Config.ALLCHECK = args.allcheck
+    Config.EXPLOIT = args.exploit
     Config.CREDSCHECK = args.credscheck
     Config.CREDSFILE = args.credsfile
     Config.FILESCHECK = args.filescheck
@@ -46,11 +48,8 @@ def main():
     if (Infos.UrlCheck().getInfo()):
         if (Config.ALLCHECK or Config.CREDSCHECK or Config.CREDSFILE):
             Credentials.CredentialsCheck().credentials()
-
         if (Config.ALLCHECK or Config.FILESCHECK):
             Files.FilesCheck().files()
-
         if (Config.ALLCHECK or Config.PLUGINSCHECK):
             Plugins.PluginsCheck().plugins()
-
 main()
