@@ -43,6 +43,7 @@ optional arguments:
   -h, --help    show this help message and exit
   -u url        URL of GLPI application
   -a            Perform allcheck
+  -e            Perform vunerability Check
   -c            Perform Credential Check
   -C credsfile  Perform Credential Check with specific wordlist file (user:password)
   -f            Perform Files Check
