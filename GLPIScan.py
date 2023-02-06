@@ -10,7 +10,7 @@ print(chalk.white("/\\  ___\\   /\\ \\       /\\  == \\ /\\ \\   /\\  ___\\   /\
 print(chalk.white("\\ \\ \\__ \\  \\ \\ \\____  \\ \\  __/ \\ \\ \\  \\ \\___  \\  \\ \\ \\____  \\ \\  __ \\  \\ \\ \\-.  \\ ", bold=True))
 print(chalk.white(" \\ \\_____\\  \\ \\_____\\  \\ \\_\\    \\ \\_\\  \\/\\_____\\  \\ \\_____\\  \\ \\_\\ \\_\\  \\ \\_\\\"\\_\\", bold=True))
 print(chalk.white("  \\/_____/   \\/_____/   \\/_/     \\/_/   \\/_____/   \\/_____/   \\/_/\\/_/   \\/_/ \\/_/", bold=True))
-print(chalk.white("                                                      v1.4 contact[@]digitemis.com\n\n\n", bold=True))
+print(chalk.white("                                                      v1.5 contact[@]digitemis.com\n\n\n", bold=True))
 
 def parsing():
     parser = argparse.ArgumentParser(description='GLPI Vulnerability Scanner.')
